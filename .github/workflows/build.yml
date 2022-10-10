@@ -13,6 +13,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           echo "::set-output name=is_SONAR_TOKEN_set::${{ env.SONAR_TOKEN != '' }}"
+      - name: check env var
+        run: |
+          echo " is sonar token set is: ${{ steps.check-secret.outputs.is_SONAR_TOKEN_set }}"
       - name: Checkout code
         uses: actions/checkout@v2
         with:
