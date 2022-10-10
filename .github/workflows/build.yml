@@ -14,9 +14,12 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           echo "::set-output name=is_SONAR_TOKEN_set::${{ env.SONAR_TOKEN != '' }}"
-      - name: check env var
-        run: |
-          echo " is sonar token set is: ${{ steps.check-secret.outputs.is_SONAR_TOKEN_set }}"
+      - name: Test if thing
+        if: ${{ !steps.check-secret.outputs.is_SONAR_TOKEN_set }}
+        run: echo "Sonar token is not set!!!"
+      - name: Test if thing
+        if: ${{ steps.check-secret.outputs.is_SONAR_TOKEN_set }}
+        run: echo "Sonar token IS set!!!"
       - name: Checkout code
         uses: actions/checkout@v2
         with:
@@ -54,7 +57,7 @@ jobs:
             **/.yarn/cache
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-yarn
-      - name: Gradle build
+      - name: Gradle build (no Sonar set)
         if: ${{ !steps.check-secret.outputs.is_SONAR_TOKEN_set }}
         run: |
           ./gradlew build -Pci --info
