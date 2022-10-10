@@ -75,8 +75,6 @@ jobs:
           IMAGE_TAG: refinery_image
         run: |
           cd /home/runner/work/refinery/refinery
-          ls buildSrc/build/libs 
-          find | sed 's|[^/]*/|- |g'
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
       
