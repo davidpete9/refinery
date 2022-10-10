@@ -58,3 +58,5 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           ./gradlew build sonarqube -Pci --info
+      - name: Check directory structure
+        run: cd /home/runner/work/refinery && (find | sed 's|[^/]*/|- |g')
