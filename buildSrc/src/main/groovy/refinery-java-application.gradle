@@ -4,7 +4,7 @@ plugins {
 	id 'refinery-java-conventions'
 }
 
-for (taskName in ['distTar', 'distZip', 'shadowDistTar', 'shadowDistZip']) {
+for (taskName in ['distTar', 'distZip', 'shadowDistZip']) {
 	tasks.named(taskName) {
 		enabled = false
 	}
