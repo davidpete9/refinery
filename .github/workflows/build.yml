@@ -61,5 +61,11 @@ jobs:
         if: ${{ env.SONAR_TOKEN == '' }}
         run: |
           gradle jibBuildTar
+      - name: Load tar to docker and push to registry
+        run: |
+          docker image load --input /home/runner/work/refinery/refinery/subprojects/language-web/build/jib-image.tar
+          docker image tag jib-image $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        
       
 
