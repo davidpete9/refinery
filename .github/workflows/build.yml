@@ -62,7 +62,7 @@ jobs:
         run: |
           ./gradlew jib -Djib.to.image $ECR_URL --image testimage
         env:
-           ECR_URL: ${{ $secrets.AWS_ECR_URL }}
+           ECR_URL: ${{ secrets.AWS_ECR_URL }}
       
       
 
