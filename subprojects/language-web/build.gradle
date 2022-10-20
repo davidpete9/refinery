@@ -10,9 +10,7 @@ configurations {
 		canBeResolved = true
 	}
 	jib {
-	  from {
-		image = 'openjdk:17-jdk-slim'
-	  }
+	  
     }
 	
 	all {
