@@ -60,6 +60,6 @@ jobs:
       - name: Gradle build (no Sonar set)
         if: ${{ env.SONAR_TOKEN == '' }}
         run: |
-          gradle jib --image testimage
+          gradle jibBuildTar
       
 
