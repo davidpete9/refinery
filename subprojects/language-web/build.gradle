@@ -9,6 +9,12 @@ configurations {
 		canBeConsumed = false
 		canBeResolved = true
 	}
+	jib {
+	  from {
+		image = 'openjdk:alpine'
+	  }
+    }
+	
 	all {
 		// Use log4j-over-slf4j instead of log4j 1.x
 		exclude group: 'log4j', module: 'log4j'
