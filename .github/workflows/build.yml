@@ -60,7 +60,7 @@ jobs:
       - name: Gradle build (no Sonar set)
         if: ${{ env.SONAR_TOKEN == '' }}
         run: |
-          ./gradlew jib -Djib.to.image {{ $secrets.AWS_ECR_URL }} --image testimage
+          ./gradlew jib -Djib.to.image ${{ $secrets.AWS_ECR_URL }} --image testimage
       
       
 
