@@ -62,9 +62,12 @@ jobs:
         run: |
           gradle jibBuildTar
       - name: Load tar to docker and push to registry
+        env:
+          IMG_TAG: refinery-language-web:0.0.0-SNAPSHOT
         run: |
           docker image load --input /home/runner/work/refinery/refinery/subprojects/language-web/build/jib-image.tar
-          docker images
+          docker image tag $IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         
       
 
