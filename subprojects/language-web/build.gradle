@@ -9,24 +9,6 @@ configurations {
 		canBeConsumed = false
 		canBeResolved = true
 	}
-	jib {
-	  from {
-		image = 'openjdk:alpine'
-	  }
-	  to {
-		image = 'localhost:5000/my-image/built-with-jib'
-		credHelper = 'osxkeychain'
-		tags = ['tag2', 'latest']
-	  }
-	  container {
-		jvmFlags = ['-Dmy.property=example.value', '-Xms512m', '-Xdebug']
-		mainClass = 'mypackage.MyApp'
-		args = ['some', 'args']
-		ports = ['1000', '2000-2003/udp']
-		labels = [key1:'value1', key2:'value2']
-		format = 'OCI'
-	  }
-	}
 	all {
 		// Use log4j-over-slf4j instead of log4j 1.x
 		exclude group: 'log4j', module: 'log4j'
