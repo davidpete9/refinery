@@ -25,7 +25,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 public class ServerLauncher {
-	public static final String DEFAULT_LISTEN_ADDRESS = "localhost";
+	public static final String DEFAULT_LISTEN_ADDRESS = "0.0.0.0";
 
 	public static final int DEFAULT_LISTEN_PORT = 1312;
 
