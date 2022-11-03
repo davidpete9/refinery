@@ -10,7 +10,9 @@ configurations {
 		canBeResolved = true
 	}
 	jib {
-	  
+	   container {
+	      ports = ['1312']
+	   }
     }
 	
 	all {
