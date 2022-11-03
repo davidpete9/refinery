@@ -65,7 +65,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: refinery
-          IMAGE_TAG: refinery-jib
+          IMAGE_TAG: latest
           LOADED_IMAGE: refinery-language-web:0.0.0-SNAPSHOT
         run: |
           docker image load --input /home/runner/work/refinery/refinery/subprojects/language-web/build/jib-image.tar
