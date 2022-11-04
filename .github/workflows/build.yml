@@ -61,6 +61,7 @@ jobs:
         if: ${{ env.SONAR_TOKEN == '' }}
         run: |
           gradle jibBuildTar
+          ./gradlew build -Pci --info
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
         with:
