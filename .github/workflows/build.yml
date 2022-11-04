@@ -61,6 +61,11 @@ jobs:
         if: ${{ env.SONAR_TOKEN == '' }}
         run: |
           gradle jibBuildTar
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend
+          path: /home/runner/work/refinery/refinery/subprojects/frontend/build/vite/
       - name: Load tar to docker and push to registry
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
