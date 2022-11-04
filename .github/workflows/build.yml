@@ -65,7 +65,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: frontend
-          path: /home/runner/work/refinery/refinery/subprojects/frontend/build/vite/
+          path: /home/runner/work/refinery/refinery/subprojects/frontend/
       - name: Load tar to docker and push to registry
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
