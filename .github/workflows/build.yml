@@ -62,13 +62,16 @@ jobs:
         run: |
           gradle jibBuildTar
           ./gradlew build -Pci --info
+        env:
+          LISTEN_HOST: http://asdf-1751104278.us-east-1.elb.amazonaws.com/
+          LISTEN_PORT: 8090
       - name: Upload S3
         uses: shallwefootball/s3-upload-action@master
         id: S3
         with:
           aws_key_id: ${{ secrets.AWS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          aws_bucket: refinery-frontend
+          aws_bucket: refinery-fe
           source_dir: '/home/runner/work/refinery/refinery/subprojects/frontend/build'
           
       - name: Load tar to docker and push to registry
