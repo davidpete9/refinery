@@ -14,14 +14,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: ${{ env.SONAR_TOKEN == '' && 1 || 0 }}  # Shallow clones should be disabled for a better relevancy of SonarCloud analysis
-      - name: Upload S3
-        uses: shallwefootball/s3-upload-action@master
-        id: S3
-        with:
-          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          aws_bucket: refinery-fe
-          source_dir: './buildSrc'
       - name: Set up JDK 17
         uses: actions/setup-java@v1
         with:
@@ -73,6 +65,14 @@ jobs:
         env:
           LISTEN_HOST: http://asdf-1751104278.us-east-1.elb.amazonaws.com/
           LISTEN_PORT: 8090
+      - name: Upload S3
+        uses: shallwefootball/s3-upload-action@master
+        id: S3
+        with:
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: refinery-fe
+          source_dir: './subprojects/frontend/build/vite/production'
           
       - name: Load tar to docker and push to registry
         env:
@@ -86,4 +86,3 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         
       
-
