@@ -4,14 +4,18 @@ plugins {
 	id 'com.google.cloud.tools.jib' version '3.3.0'
 }
 
+
+
 configurations {
 	webapp {
 		canBeConsumed = false
 		canBeResolved = true
 	}
 	jib {
+
 	   container {
 	      ports = ['1312']
+		  environment = [JAVA_TOOL_OPTIONS:"-javaagent:/opt/aws-opentelemetry-agent.jar"]
 	   }
     }
 	
