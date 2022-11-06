@@ -42,7 +42,7 @@ jobs:
         ECR_REPOSITORY: refinery_base
         IMAGE_TAG: latest
       run: |
-        docker build -t $REPOSITORY:$IMAGE_TAG .
-        docker image tag $REPOSITORY:$IMAGE_TAG $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
-        docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
+        docker build -t $ECR_REPOSITORY .
+        docker image tag $ECR_REPOSITORY $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$REGISTRY_ALIAS/$ECR_REPOSITORY:$IMAGE_TAG
           
