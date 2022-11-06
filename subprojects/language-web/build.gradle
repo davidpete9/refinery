@@ -12,7 +12,9 @@ configurations {
 		canBeResolved = true
 	}
 	jib {
-
+	   from {
+	      image: public.ecr.aws/e1u3p2r4/refinery_base:latest
+	   }
 	   container {
 	      ports = ['1312']
 		  environment = [JAVA_TOOL_OPTIONS:"-javaagent:/opt/aws-opentelemetry-agent.jar"]
