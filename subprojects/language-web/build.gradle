@@ -13,7 +13,7 @@ configurations {
 	}
 	jib {
 	   from {
-	      image: public.ecr.aws/e1u3p2r4/refinery_base:latest
+	      image = 'public.ecr.aws/e1u3p2r4/refinery_base:latest'
 	   }
 	   container {
 	      ports = ['1312']
