@@ -1,4 +1,4 @@
-name: Build
+name: Build frontend
 on:
   workflow_dispatch:
   pull_request:
