@@ -49,7 +49,7 @@ export default class XtextWebSocketClient {
         'Accept': 'application/json'
        }
     }
-    ).then((r) => r.json()).than((r) => {
+    ).then((r) => r.json()).then((r) => {
         return 'ws-server' in r ? r['ws-server'] : window.location.origin;
     });
   };
