@@ -57,7 +57,7 @@ jobs:
       - name: Gradle build (no Sonar set)
         if: ${{ env.SONAR_TOKEN == '' }}
         run: |
-          ./gradlew build -Pci --stacktrace --info
+          ./gradlew build -Pci --info
       - name: Upload S3
         uses: shallwefootball/s3-upload-action@master
         id: S3
