@@ -41,24 +41,14 @@ export default class XtextWebSocketClient {
 
   private readonly pendingRequests = new Map<string, PendingTask<unknown>>();
 
-  private readonly getWebSockerUrl = async () => {
-    return await fetch('env.json'
-      ,{
-      headers : {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-       }
-    }
-    ).then((r) => r.json()).then((r) => {
-        return 'ws-server' in r ? r['ws-server'] : window.location.origin;
-    });
-  };
-
   private readonly interpreter = interpret(
     webSocketMachine
       .withContext({
         ...webSocketMachine.context,
-        webSocketURL: `${this.getWebSockerUrl()}}/xtext-service`,
+        webSocketURL: `${window.location.origin.replace(
+          /^http/,
+          'ws',
+        )}/xtext-service`,
       })
       .withConfig({
         actions: {
