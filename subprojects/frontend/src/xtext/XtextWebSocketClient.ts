@@ -45,10 +45,7 @@ export default class XtextWebSocketClient {
     webSocketMachine
       .withContext({
         ...webSocketMachine.context,
-        webSocketURL: `${window.location.origin.replace(
-          /^http/,
-          'ws',
-        )}/xtext-service`,
+        webSocketURL: 'ws://test-1019747625.eu-west-3.elb.amazonaws.com/xtext-service',
       })
       .withConfig({
         actions: {
