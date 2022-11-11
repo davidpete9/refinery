@@ -66,6 +66,7 @@ jobs:
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY_MIT }}
           aws_bucket: refinery-frontend-public
           source_dir: './subprojects/frontend/build/vite/production'
+          destination_dir: ''
          
         
       
