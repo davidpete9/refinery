@@ -64,7 +64,7 @@ jobs:
         with:
           aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID_MIT }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY_MIT }}
-          aws_bucket: refinery-frontend
+          aws_bucket: refinery-frontend-public
           source_dir: './subprojects/frontend/build/vite/production'
          
         
