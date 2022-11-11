@@ -8,6 +8,32 @@ function svgURL(svg: string): string {
   return `url('data:image/svg+xml;utf8,${svg}')`;
 }
 
+function radialShadowTheme(
+  origin: string,
+  scaleX: boolean,
+  scaleY: boolean,
+): CSSObject {
+  function radialGradient(opacity: number, scale: string): string {
+    return `radial-gradient(
+        farthest-side at ${origin},
+        rgba(0, 0, 0, ${opacity}),
+        rgba(0, 0, 0, 0)
+      )
+      ${origin} /
+      ${scaleX ? scale : '100%'}
+      ${scaleY ? scale : '100%'}
+      no-repeat`;
+  }
+
+  return {
+    background: `
+      ${radialGradient(0.2, '40%')},
+      ${radialGradient(0.14, '50%')},
+      ${radialGradient(0.12, '100%')}
+    `,
+  };
+}
+
 export default styled('div', {
   name: 'EditorTheme',
   shouldForwardProp: (propName) =>
@@ -31,8 +57,68 @@ export default styled('div', {
     '&, .cm-editor': {
       height: '100%',
     },
+    '.cm-scroller-holder': {
+      display: 'flex',
+      position: 'relative',
+      flexDirection: 'column',
+      overflow: 'hidden',
+      flex: '1 1',
+    },
     '.cm-scroller': {
       color: theme.palette.text.secondary,
+      scrollbarWidth: 'none',
+      MsOverflowStyle: 'none',
+      '&::-webkit-scrollbar': {
+        width: 0,
+        height: 0,
+        background: 'transparent',
+      },
+    },
+    '.cm-scroller-thumb': {
+      position: 'absolute',
+      background: theme.palette.text.secondary,
+      opacity: theme.palette.mode === 'dark' ? 0.16 : 0.28,
+      transition: theme.transitions.create('opacity', {
+        duration: theme.transitions.duration.shortest,
+      }),
+      '&:hover': {
+        opacity: 0.75,
+      },
+      '&.active': {
+        opacity: 1,
+        pointerEvents: 'none',
+        userSelect: 'none',
+      },
+    },
+    '.cm-scroller-thumb-y': {
+      top: 0,
+      right: 0,
+    },
+    '.cm-scroller-thumb-x': {
+      left: 0,
+      bottom: 0,
+    },
+    '.cm-scroller-gutter-decoration': {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      width: 0,
+      transition: theme.transitions.create('width', {
+        duration: theme.transitions.duration.shortest,
+      }),
+      ...radialShadowTheme('0 50%', true, false),
+    },
+    '.cm-scroller-top-decoration': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      height: 0,
+      transition: theme.transitions.create('height', {
+        duration: theme.transitions.duration.shortest,
+      }),
+      ...radialShadowTheme('50% 0', false, true),
     },
     '.cm-gutters': {
       background: theme.palette.background.default,
@@ -51,7 +137,7 @@ export default styled('div', {
       background: 'transparent',
     },
     '.cm-cursor, .cm-cursor-primary': {
-      borderLeft: `2px solid ${theme.palette.primary.main}`,
+      borderLeft: `2px solid ${theme.palette.highlight.cursor}`,
     },
     '.cm-selectionBackground': {
       background: theme.palette.highlight.selection,
@@ -61,6 +147,9 @@ export default styled('div', {
       '.cm-selectionBackground': {
         background: theme.palette.highlight.selection,
       },
+    },
+    '.cm-line': {
+      position: 'relative', // For indentation highlights
     },
   };
 
@@ -149,6 +238,24 @@ export default styled('div', {
     '.cm-searchMatch-selected': {
       background: theme.palette.highlight.search.selected,
     },
+    '.cm-indentation-marker': {
+      display: 'inline-block',
+      boxShadow: `1px 0 0 ${theme.palette.highlight.lineNumber} inset`,
+      '&.active': {
+        boxShadow: `1px 0 0 ${theme.palette.text.primary} inset`,
+      },
+    },
+    '.cm-scroller-selection': {
+      position: 'absolute',
+      right: 0,
+      boxShadow: `0 2px 0 ${theme.palette.highlight.cursor} inset`,
+      zIndex: 200,
+    },
+    '.cm-scroller-occurrence': {
+      position: 'absolute',
+      background: theme.palette.text.secondary,
+      zIndex: 150,
+    },
   };
 
   const lineNumberStyle: CSSObject = {
@@ -192,6 +299,7 @@ export default styled('div', {
   function lintSeverityStyle(
     severity: 'error' | 'warning' | 'info',
     icon: string,
+    zIndex: number,
   ): CSSObject {
     const palette = theme.palette[severity];
     const color = palette.main;
@@ -245,6 +353,12 @@ export default styled('div', {
           content: '""',
           display: 'none',
         },
+      },
+      [`.cm-scroller-diagnostic-${severity}`]: {
+        position: 'absolute',
+        right: 0,
+        background: color,
+        zIndex,
       },
     };
   }
@@ -304,24 +418,14 @@ export default styled('div', {
     '.cm-lintRange-active': {
       background: theme.palette.highlight.activeLintRange,
     },
-    ...lintSeverityStyle('error', errorSVG),
-    ...lintSeverityStyle('warning', warningSVG),
-    ...lintSeverityStyle('info', infoSVG),
+    ...lintSeverityStyle('error', errorSVG, 120),
+    ...lintSeverityStyle('warning', warningSVG, 110),
+    ...lintSeverityStyle('info', infoSVG, 100),
   };
 
   const foldStyle = {
     '.cm-foldGutter': {
-      opacity: 0,
       width: 16,
-      transition: theme.transitions.create('opacity', {
-        duration: theme.transitions.duration.short,
-      }),
-      '@media (hover: none)': {
-        opacity: 1,
-      },
-    },
-    '.cm-gutters:hover .cm-foldGutter': {
-      opacity: 1,
     },
     '.problem-editor-foldMarker': {
       display: 'block',
@@ -337,6 +441,18 @@ export default styled('div', {
       [theme.breakpoints.down('sm')]: {
         margin: '2px 0',
       },
+    },
+    '.problem-editor-foldMarker-open': {
+      opacity: 0,
+      transition: theme.transitions.create('opacity', {
+        duration: theme.transitions.duration.short,
+      }),
+      '@media (hover: none)': {
+        opacity: 1,
+      },
+    },
+    '.cm-gutters:hover .problem-editor-foldMarker-open': {
+      opacity: 1,
     },
     '.problem-editor-foldMarker-closed': {
       transform: 'rotate(-90deg)',

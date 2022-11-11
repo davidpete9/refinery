@@ -35,8 +35,7 @@ export default class XtextClient {
     this.webSocketClient = new XtextWebSocketClient(
       () => this.onReconnect(),
       () => this.onDisconnect(),
-      (resource, stateId, service, push) =>
-        this.onPush(resource, stateId, service, push),
+      this.onPush.bind(this),
     );
     this.updateService = new UpdateService(store, this.webSocketClient);
     this.contentAssistService = new ContentAssistService(this.updateService);
@@ -119,5 +118,9 @@ export default class XtextClient {
     this.updateService.formatText().catch((e) => {
       log.error('Error while formatting text', e);
     });
+  }
+
+  dispose(): void {
+    this.webSocketClient.disconnect();
   }
 }

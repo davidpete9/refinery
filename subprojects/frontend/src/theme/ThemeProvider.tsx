@@ -14,7 +14,7 @@ import {
 import { observer } from 'mobx-react-lite';
 import React, { type ReactNode, createContext, useContext } from 'react';
 
-import { useRootStore } from '../RootStore';
+import { useRootStore } from '../RootStoreProvider';
 
 interface OuterPalette {
   background: string;
@@ -22,6 +22,7 @@ interface OuterPalette {
 }
 
 interface HighlightPalette {
+  cursor: string;
   number: string;
   parameter: string;
   comment: string;
@@ -175,6 +176,7 @@ const lightTheme = createResponsiveTheme({
       border: '#c8c8c8',
     },
     highlight: {
+      cursor: '#4078f2',
       number: '#0084bc',
       parameter: '#6a3e3e',
       comment: '#a0a1a7',
@@ -246,9 +248,10 @@ const darkTheme = createResponsiveTheme({
     divider: alpha('#abb2bf', 0.24),
     outer: {
       background: '#21252b',
-      border: '#333841',
+      border: '#181a1f',
     },
     highlight: {
+      cursor: '#61afef',
       number: '#6188a6',
       parameter: '#c8ae9d',
       comment: '#7f848e',
